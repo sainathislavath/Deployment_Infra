@@ -1,0 +1,44 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "graph",
+      "title": "HTTP Request Rate",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(http_request_total[1m])",
+          "legendFormat": "{{method}} {{route}}"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "graph",
+      "title": "HTTP 5xx Error Rate",
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "rate(http_error_total[1m])",
+          "legendFormat": "errors"
+        }
+      ],
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      }
+    }
+  ],
+  "schemaVersion": 16,
+  "title": "TravelMemory Backend",
+  "version": 1
+}

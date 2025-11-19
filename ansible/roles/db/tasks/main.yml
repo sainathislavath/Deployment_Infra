@@ -1,0 +1,33 @@
+- name: Install MongoDB
+  apt:
+    name: mongodb
+    state: present
+
+- name: Start MongoDB
+  service:
+    name: mongodb
+    state: started
+    enabled: true
+
+- name: Create MongoDB user
+  shell: |
+    mongo <<EOF
+    use travelmemory
+    db.createUser({user: "tmsainath", pwd: "sai@57006", roles: [{role: "readWrite", db: "travelmemory"}]})
+    EOF
+  args:
+    executable: /bin/bash
+
+- name: Allow MongoDB remote
+  lineinfile:
+    path: /etc/mongodb.conf
+    regexp: '^bind_ip'
+    line: 'bind_ip = 0.0.0.0'
+  notify:
+    - restart mongod
+
+- name: Allow MongoDB in UFW
+  ufw:
+    rule: allow
+    port: 27017
+    proto: tcp

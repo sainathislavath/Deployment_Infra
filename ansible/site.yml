@@ -1,0 +1,14 @@
+- hosts: all
+  become: true
+  roles:
+    - common
+
+- hosts: db
+  become: true
+  roles:
+    - db
+
+- hosts: web
+  become: true
+  roles:
+    - web

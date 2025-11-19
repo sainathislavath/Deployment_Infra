@@ -1,0 +1,31 @@
+- name: Install NodeJS
+  shell: |
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+    apt install -y nodejs
+  args:
+    executable: /bin/bash
+
+- name: Clone TravelMemory repo
+  git:
+    repo: "https://github.com/sainathislavath/TravelMemory.git"
+    dest: /opt/travelmemory
+    version: main
+
+- name: Install backend deps
+  shell: |
+    cd /opt/travelmemory/backend
+    npm install
+
+- name: Install frontend deps & build
+  shell: |
+    cd /opt/travelmemory/frontend
+    npm install
+    npm run build
+
+- name: Create .env file
+  copy:
+    dest: /opt/travelmemory/backend/.env
+    content: |
+      PORT=5000
+      MONGO_URI=mongodb://tmsainath:sai@57006@<DB_PUBLIC_IP>:27017/travelmemory
+      JWT_SECRET=OxTwvbJLWsN39VHCPM/q+5BH3S4dl7BKPTmilCqa61I=
